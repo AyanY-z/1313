@@ -1,5 +1,4 @@
 streamlit
-color_pair
-pandas
 folium
-streamlit_folium
+streamlit-folium
+pandas
