@@ -4,13 +4,6 @@ import folium
 from folium.plugins import MarkerCluster
 from streamlit_folium import st_folium
 
-# Создание карты
-map = folium.Map(location=[51.187911, 71.409788], zoom_start=16)
-
-# Отображение карты
-st.title("Карта кампуса")
-st_folium(map, width=800, height=600)
-
 # === 1. Подготовка данных ===
 # Данные о локациях кампуса
 data = [
@@ -22,22 +15,16 @@ data = [
 # Преобразуем данные в DataFrame
 df = pd.DataFrame(data)
 
-# === 2. Создание карты с реальным базовым слоем ===
-# Центральные координаты кампуса
-campus_center = [51.187911, 71.409788] 
-
-# Используем базовый слой OpenStreetMap
+# === 2. Создание карты с кластеризованными маркерами ===
+campus_center = [51.187911, 71.409788]
 campus_map = folium.Map(location=campus_center, zoom_start=16, tiles="OpenStreetMap")
-marker_cluster = MarkerCluster().add_to(campus_map)
-
-# === 3. Добавление кластеризованных маркеров ===
 marker_cluster = MarkerCluster().add_to(campus_map)
 
 # Цветовая схема для разных типов зданий
 color_map = {
     "Учебный корпус": "blue",
     "Кафетерий": "orange",
-    "Биокорпус": "red"
+    "Асхана": "red"
 }
 
 # Добавление маркеров
@@ -48,7 +35,6 @@ for _, row in df.iterrows():
         icon=folium.Icon(color=color_map.get(row["purpose"], "gray"), icon="info-sign")
     ).add_to(marker_cluster)
 
-# === 4. Сохранение карты ===
-campus_map.save("real_campus_map.html")
-
-print("Карта сохранена как 'real_campus_map.html'. Откройте файл в браузере, чтобы посмотреть результат.")
+# === 3. Отображение карты в Streamlit ===
+st.title("Карта кампуса")
+st_folium(campus_map, width=800, height=600)
