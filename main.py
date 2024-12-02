@@ -1,5 +1,4 @@
 import streamlit as st
-from curses import color_pair
 import pandas as pd
 import folium
 from folium.plugins import MarkerCluster
